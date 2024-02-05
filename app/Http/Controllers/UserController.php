@@ -99,6 +99,7 @@ class UserController extends Controller
             $credentials = $request->only('email', 'password');//Takes the email and password from the request and creates a variable for the credentials
             if (Auth::attempt($credentials)) {//Attempt to log in when the credentials and are correct and match correctly
                 $user = User::where('email', $request->email)->first();//search the user in the database from his email
+                if($user->status ==true){
                 if($user->role_id != 1) {//check if the user is an admin or not
                     Auth::login($user);
                     $user->status = true;
@@ -116,8 +117,11 @@ class UserController extends Controller
                 Log::info('User Admin: ' . $user->name . ' (' . $user->email . ') passed first Authentication Phase. , Time:('.$time.')');
                 Mail::to($user->email)->send(new SecondFactor($user,$url)); //send the email with the code to the admin
                 return redirect($url);//go to the page where the admin will put the code
-            }
-            }
+            }}else{
+                return back()->withErrors([
+                    'email' => 'Please verify your email, you can see it in your inbox.',
+                ]); //if the credentials are wrong, return to the login page with an error}
+            }}
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ]); //if the credentials are wrong, return to the login page with an error

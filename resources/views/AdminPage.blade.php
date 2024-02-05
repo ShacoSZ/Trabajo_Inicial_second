@@ -15,23 +15,23 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Opción 1</a>
+        <a class="nav-link" href="#">Option One</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Opción 2</a>
+        <a class="nav-link" href="#">Option Two</a>
       </li>
     </ul>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Cuenta
+          Options
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Ver cuenta</a>
-          <a class="dropdown-item" href="{{route('LogoutUser')}}">Cerrar sesión</a>
+          <a class="dropdown-item" href="#">See Profile</a>
+          <a class="dropdown-item" href="{{route('LogoutUser')}}">Log Out</a>
         </div>
       </li>
     </ul>
@@ -48,6 +48,8 @@
     <div class="row">
         <div class="col-md-12">
             <h2>This is your Admin Page UwU</h2>
+            <br>
+            <center><iframe width="560" height="315" src="https://www.youtube.com/embed/Qebsv5ywRAs" title="Bury The Light" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></center>
         </div>
 
 
