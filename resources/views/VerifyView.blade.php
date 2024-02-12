@@ -11,14 +11,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Verificar Código</div>
+                <div class="card-header">Verify Code</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{route('verifyTwoFactor')}}">
                         @csrf
                         <input type="hidden" name="user" value="{{ request()->query('user') }}">
                         <div class="form-group row">
-                            <label for="verification_code" class="col-md-4 col-form-label text-md-right">{{ __('Código de Verificación') }}</label>
+                            <label for="verification_code" class="col-md-4 col-form-label text-md-right">{{ __('veryfication Code') }}</label>
 
                             <div class="col-md-6">
                                 <input id="verification_code" type="text" class="form-control @error('verification_code') is-invalid @enderror" name="verification_code" required autofocus>
@@ -31,14 +31,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                            <center>
                                 <button type="submit" class="btn btn-primary">
-                                    Verificar
+                                    Verify
                                 </button>
-                            </div>
-                        </div>
+                            </center>
                     </form>
+                    <br>
+                    <form action="{{route('ResendEmailForLoginAdmin')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="user" value="{{ request()->query('user') }}">
+                        <center>
+                            <button id="ResendButton" type="submit" class="btn btn-secondary">Resend the veryfication code</button>
+                        </center>
+                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,5 +70,20 @@
         }); 
         });
     </script>
+    <script>
+    var button = document.getElementById("ResendButton");
+    function disableButton() {
+      button.disabled = true; 
+      button.innerText = "Wait for 30 seconds...";
+      setTimeout(function () {
+        button.disabled = false;
+        button.innerText = "Resend the veryfication code";
+      }, 30000);
+    }
+
+    window.addEventListener('load', function() {
+            disableButton();
+        });
+  </script>
 </body>
 </html>

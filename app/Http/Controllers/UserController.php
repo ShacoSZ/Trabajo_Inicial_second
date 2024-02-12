@@ -96,26 +96,24 @@ class UserController extends Controller
                 return redirect('login')->withErrors($validacion);
             }//This is when the validation fails
 
-            $credentials = $request->only('email', 'password');//Takes the email and password from the request and creates a variable for the credentials
-            if (Auth::attempt($credentials)) {//Attempt to log in when the credentials and are correct and match correctly
-                $user = User::where('email', $request->email)->first();//search the user in the database from his email
+            $user = User::where('email', $request->email)->first();//search the user in the database from his email
+            if (Hash::check($request->password, $user->password)) {
                 if($user->status ==true){
                 if($user->role_id != 1) {//check if the user is an admin or not
                     Auth::login($user);
-                    $user->status = true;
-                    $time = now();
-                    Log::info('User: ' . $user->name . ' (' . $user->email . ') has logged in. , Time:('.$time.')');
+                    Log::info('User: ' . $user->name . ' (' . $user->email . ') has logged in. , Time:('.now().')');
                     return redirect()->route('UserHome');
                 } else {//if the user is an admin, go to the second factor of verification
-                $verificationCode = mt_rand(100000, 999999); //generate a random code of six digits
-                $user->two_factor_code = $verificationCode; //save the code in the database with the admin wants to get in
+                $verificationCode = mt_rand(100000, 999999);  //generate a random code of six digits
+                $code = Hash::make($verificationCode); //hash the code
+                $user->two_factor_code = $code; //save the code in the database with the admin wants to get in
                 $user->two_factor_expires_at = now()->addMinutes(10); //save the time when the code will expire
                 $user->save(); //save the changes in the database
                 $time = now();
 
                 $url = URL::temporarySignedRoute('verify', now()->addMinutes(10), ['user' => $user->id]); //create a temporary url with the code
                 Log::info('User Admin: ' . $user->name . ' (' . $user->email . ') passed first Authentication Phase. , Time:('.$time.')');
-                Mail::to($user->email)->send(new SecondFactor($user,$url)); //send the email with the code to the admin
+                Mail::to($user->email)->send(new SecondFactor($user,$url,$verificationCode)); //send the email with the code to the admin
                 return redirect($url);//go to the page where the admin will put the code
             }}else{
                 return back()->withErrors([

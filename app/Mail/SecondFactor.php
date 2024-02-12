@@ -23,10 +23,10 @@ class SecondFactor extends Mailable
     public string $email;
     public string $url;
 
-    public function __construct($user_data,$url)
+    public function __construct($user_data,$url,$verificationCode)
     {
         $this->user_data = $user_data;
-        $this->two_factor_code = $user_data->two_factor_code;
+        $this->two_factor_code = $verificationCode;
         $this->name = $user_data->name;
         $this->email = $user_data->email;
         $this->url = $url;

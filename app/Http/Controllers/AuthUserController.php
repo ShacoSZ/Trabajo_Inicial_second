@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SecondFactor;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Rules\ReCaptcha;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class AuthUserController extends Controller
 {
@@ -25,7 +29,7 @@ class AuthUserController extends Controller
 
         $user = User::where('id', $request->user)->first();
 
-        if ($request->verification_code == $user->two_factor_code && $user->two_factor_expires_at > now()) {
+        if (Hash::check($request->verification_code,$user->two_factor_code) && $user->two_factor_expires_at > now()) {
             $chnguser = User::where('id', $user->id)->first();
             $chnguser->two_factor_code = null;
             $chnguser->two_factor_expires_at = null;
@@ -52,5 +56,19 @@ class AuthUserController extends Controller
             $user->save();
         } 
         return redirect()->route('index');
+    }
+    public function ResendEmailForLoginAdmin(Request $request)
+    {
+        $user = User::where('id', $request->user)->first();
+        $verificationCode = mt_rand(100000, 999999);
+        $code = Hash::make($verificationCode);
+        $user->two_factor_code = $code;
+        $user->two_factor_expires_at = now()->addMinutes(10);  
+        if ($user->save()) {
+            $url = URL::temporarySignedRoute('verify', now()->addMinutes(10), ['user' => $user->id]); //create a temporary url with the code
+            Log::info('User Admin: ' . $user->name . ' (' . $user->email . ') passed first Authentication Phase. , Time:('.now().')');
+            Mail::to($user->email)->send(new SecondFactor($user, $url,$verificationCode));
+            return redirect($url);
+        }
     }
 }

@@ -35,3 +35,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 route::post('/user/register',[UserController::class,'CreateUser'])->name('CreateUser');
 route::post('/user/login',[UserController::class,'LoginUser'])->name('LoginUser');
 route::post('/user/verify',[AuthUserController::class,'verifyTwoFactor'])->name('verifyTwoFactor');
+route::post('/user/resend',[AuthUserController::class,'ResendEmailForLoginAdmin'])->name('ResendEmailForLoginAdmin');
