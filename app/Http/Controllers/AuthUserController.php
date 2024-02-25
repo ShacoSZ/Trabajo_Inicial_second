@@ -71,4 +71,9 @@ class AuthUserController extends Controller
             return redirect($url);
         }
     }
+    public function test (Request $request)
+    {
+        $text = "arremangala arrempujala";
+        return $text;
+    }
 }
