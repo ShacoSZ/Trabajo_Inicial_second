@@ -51,7 +51,7 @@
             <label for="password">Password</label>
             <input required type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button id="buttonsubmit" type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>
 
@@ -73,6 +73,7 @@
               input.value = token;
               form.appendChild(input);
               form.submit();
+              document.getElementById("buttonsubmit").disabled = true;
           });
         }); 
         });
