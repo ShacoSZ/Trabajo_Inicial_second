@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('role_id');
             $table->boolean('status')->default(false);
-            $table->foreign('role_id')->references('id')->on('User_Roles');
+            $table->foreign('role_id')->references('id')->on('user_roles');
             $table->rememberToken();
             $table->timestamps();
         });
