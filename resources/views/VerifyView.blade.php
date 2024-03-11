@@ -32,7 +32,7 @@
                         </div>
 
                             <center>
-                                <button type="submit" class="btn btn-primary">
+                                <button id="buttonsubmit" type="submit" class="btn btn-primary">
                                     Verify
                                 </button>
                             </center>
@@ -66,6 +66,7 @@
               input.value = token;
               form.appendChild(input);
               form.submit();
+              document.getElementById("buttonsubmit").disabled = true;
           });
         }); 
         });
