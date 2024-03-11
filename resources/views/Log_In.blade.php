@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Sign In</button>
+                                <button id= "buttonsubmit" type="submit" class="btn btn-primary">Sign In</button>
                             </div>
                         </form>
                     </div>
@@ -82,6 +82,7 @@
               input.value = token;
               form.appendChild(input);
               form.submit();
+              document.getElementById("buttonsubmit").disabled = true;
           });
         }); 
         });
