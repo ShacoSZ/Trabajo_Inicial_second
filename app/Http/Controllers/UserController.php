@@ -38,7 +38,7 @@ class UserController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required',
-                'g-recaptcha-response' => ['required', new ReCaptcha],
+                //'g-recaptcha-response' => ['required', new ReCaptcha],
             ]); //This is the validation of the fields
 
             if($validacion->fails()){
@@ -88,7 +88,7 @@ class UserController extends Controller
             [
                 'email' => 'required|email',
                 'password' => 'required',
-                'g-recaptcha-response' => ['required', new ReCaptcha],
+                //'g-recaptcha-response' => ['required', new ReCaptcha],
             ]);//this is the validation of the fields
 
             if($validacion->fails()){
