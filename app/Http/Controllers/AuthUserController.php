@@ -24,7 +24,7 @@ class AuthUserController extends Controller
         
         $request->validate([
             'verification_code' => 'required|digits:6',
-            'g-recaptcha-response' => ['required', new ReCaptcha],
+            //'g-recaptcha-response' => ['required', new ReCaptcha],
         ]);
 
         $user = User::where('id', $request->user)->first();
